@@ -79,5 +79,29 @@ public class App {
 		// Header1        Header2        
 		// 516            test           
 		// 54             qqqqqq wwwwww 
+
+		// Print console with headers.
+		// Create printer which can create string with formatting text for print to
+		// console.
+		ITablePrinter tp3 = new TablePrinterToHtml();
+		// Print table to string.
+		// You need implement IRowReader for convert fields of your class to strings.
+		String q3 = tp3.print(col, Arrays.asList("Header1", "Header2"), new IRowReader<MyClass>() {
+			@Override
+			public String getCell(MyClass dataSourceRow, int columnId) {
+				switch (columnId) {
+				case 0:
+					return Integer.toString(dataSourceRow.field1);
+				case 1:
+					return dataSourceRow.field2;
+				default:
+					return "";
+				}
+			}
+		});
+		// Output string to console.
+		System.out.print(q3);
+		// It print
+		// <table><tr><th>Header1</th><th>Header2</th></tr><tr><td>516</td><td>test</td></tr><tr><td>54</td><td>qqqqqq wwwwww</td></tr></table>
 	}
 }
