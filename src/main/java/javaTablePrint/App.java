@@ -1,6 +1,7 @@
 package javaTablePrint;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 
 /**
@@ -52,5 +53,31 @@ public class App {
 		// It print
 		// 516            test           
 		// 54             qqqqqq wwwwww  
+
+		// Print console with headers.
+		// Create printer which can create string with formatting text for print to
+		// console.
+		ITablePrinter tp2 = new TablePrinterToConsole();
+		// Print table to string.
+		// You need implement IRowReader for convert fields of your class to strings.
+		String q2 = tp2.print(col, Arrays.asList("Header1", "Header2"), new IRowReader<MyClass>() {
+			@Override
+			public String getCell(MyClass dataSourceRow, int columnId) {
+				switch (columnId) {
+				case 0:
+					return Integer.toString(dataSourceRow.field1);
+				case 1:
+					return dataSourceRow.field2;
+				default:
+					return "";
+				}
+			}
+		});
+		// Output string to console.
+		System.out.print(q2);
+		// It print
+		// Header1        Header2        
+		// 516            test           
+		// 54             qqqqqq wwwwww 
 	}
 }

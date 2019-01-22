@@ -1,6 +1,7 @@
 package javaTablePrint;
 
 import java.util.Formatter;
+import java.util.List;
 
 public class TablePrinterToConsole implements ITablePrinter {
 
@@ -18,4 +19,18 @@ public class TablePrinterToConsole implements ITablePrinter {
 		}
 		return res.toString();
 	}
+
+	@Override
+	public <T> String print(Iterable<T> dataSource, List<String> headers, IRowReader<T> rowReader) {
+		StringBuilder res = new StringBuilder();
+		try (Formatter formatter = new Formatter(res)) {
+			for (String header : headers) {
+				formatter.format(CEL_TEMPLATE, header);
+			}
+			res.append('\n');
+		}
+		res.append(print(dataSource, headers.size(), rowReader));
+		return res.toString();
+	}
+
 }
