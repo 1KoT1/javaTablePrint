@@ -1,6 +1,7 @@
 package javaTablePrint;
 
 import java.util.List;
+import java.util.function.Function;
 
 public class TablePrinterToHtml implements ITablePrinter {
 
@@ -14,14 +15,15 @@ public class TablePrinterToHtml implements ITablePrinter {
 	private static final String CELL_END_TEG = "</td>";
 
 	@Override
-	public <T> String print(Iterable<T> dataSource, int countOfColumn, IRowReader<T> rowReader) {
+	public <T> String print(Iterable<T> dataSource, int countOfColumn, Function<T, List<String>> rowReader) {
 		StringBuilder res = new StringBuilder();
 		res.append(TABLE_BEGIN_TEG);
 		for (T row : dataSource) {
 			res.append(ROW_BEGIN_TEG);
+			List<String> rowStr = rowReader.apply(row);
 			for (int i = 0; i < countOfColumn; i++) {
 				res.append(CELL_BEGIN_TEG);
-				res.append(rowReader.getCell(row, i));
+				res.append(rowStr.get(i));
 				res.append(CELL_END_TEG);
 			}
 			res.append(ROW_END_TEG);
@@ -31,7 +33,7 @@ public class TablePrinterToHtml implements ITablePrinter {
 	}
 
 	@Override
-	public <T> String print(Iterable<T> dataSource, List<String> headers, IRowReader<T> rowReader) {
+	public <T> String print(Iterable<T> dataSource, List<String> headers, Function<T, List<String>> rowReader) {
 		StringBuilder res = new StringBuilder();
 		res.append(TABLE_BEGIN_TEG);
 		res.append(ROW_BEGIN_TEG);
@@ -43,9 +45,10 @@ public class TablePrinterToHtml implements ITablePrinter {
 		res.append(ROW_END_TEG);
 		for (T row : dataSource) {
 			res.append(ROW_BEGIN_TEG);
+			List<String> rowStr = rowReader.apply(row);
 			for (int i = 0; i < headers.size(); i++) {
 				res.append(CELL_BEGIN_TEG);
-				res.append(rowReader.getCell(row, i));
+				res.append(rowStr.get(i));
 				res.append(CELL_END_TEG);
 			}
 			res.append(ROW_END_TEG);

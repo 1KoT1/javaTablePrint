@@ -35,19 +35,8 @@ public class App {
 		ITablePrinter tp = new TablePrinterToConsole();
 		// Print table to string.
 		// You need implement IRowReader for convert fields of your class to strings.
-		String q = tp.print(col, 2, new IRowReader<MyClass>() {
-			@Override
-			public String getCell(MyClass dataSourceRow, int columnId) {
-				switch (columnId) {
-				case 0:
-					return Integer.toString(dataSourceRow.field1);
-				case 1:
-					return dataSourceRow.field2;
-				default:
-					return "";
-				}
-			}
-		});
+		String q = tp.print(col, 2,
+				dataSourceRow -> Arrays.asList(Integer.toString(dataSourceRow.field1), dataSourceRow.field2));
 		// Output string to console.
 		System.out.print(q);
 		// It print
@@ -60,19 +49,8 @@ public class App {
 		ITablePrinter tp2 = new TablePrinterToConsole();
 		// Print table to string.
 		// You need implement IRowReader for convert fields of your class to strings.
-		String q2 = tp2.print(col, Arrays.asList("Header1", "Header2"), new IRowReader<MyClass>() {
-			@Override
-			public String getCell(MyClass dataSourceRow, int columnId) {
-				switch (columnId) {
-				case 0:
-					return Integer.toString(dataSourceRow.field1);
-				case 1:
-					return dataSourceRow.field2;
-				default:
-					return "";
-				}
-			}
-		});
+		String q2 = tp2.print(col, Arrays.asList("Header1", "Header2"),
+				dataSourceRow -> Arrays.asList(Integer.toString(dataSourceRow.field1), dataSourceRow.field2));
 		// Output string to console.
 		System.out.print(q2);
 		// It print
@@ -86,19 +64,8 @@ public class App {
 		ITablePrinter tp3 = new TablePrinterToHtml();
 		// Print table to string.
 		// You need implement IRowReader for convert fields of your class to strings.
-		String q3 = tp3.print(col, Arrays.asList("Header1", "Header2"), new IRowReader<MyClass>() {
-			@Override
-			public String getCell(MyClass dataSourceRow, int columnId) {
-				switch (columnId) {
-				case 0:
-					return Integer.toString(dataSourceRow.field1);
-				case 1:
-					return dataSourceRow.field2;
-				default:
-					return "";
-				}
-			}
-		});
+		String q3 = tp3.print(col, Arrays.asList("Header1", "Header2"),
+				dataSourceRow -> Arrays.asList(Integer.toString(dataSourceRow.field1), dataSourceRow.field2));
 		// Output string to console.
 		System.out.print(q3);
 		// It print
